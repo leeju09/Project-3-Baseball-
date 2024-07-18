@@ -1,28 +1,29 @@
-//Central point 
-let centLat= 44.97;
-let centLong= -103.78;
+  //Central point 
+  let centLat= 44.97;
+  let centLong= -103.78;
 
-// Create the tile layer that will be the background of our map.
-let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}); 
+  // Create the tile layer that will be the background of our map.
+  let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }); 
 
-// Create a baseMaps object to hold the streetmap layer.
-let baseMaps = {
-"Street Map": streetmap
-};
-//Create the base map
-let myMap = L.map("map", {
-  center: [centLat, centLong],
-  zoom: 3,
-  layers: [streetmap]
+  // Create a baseMaps object to hold the streetmap layer.
+  let baseMap = {
+  "Street Map": streetmap
+  };
+  //Create the base map
+  let myMap = L.map("map", {
+    center: [centLat, centLong],
+    zoom: 3,
+    layers: [streetmap]
 
 });
+
 
 //This function accept the player count and return the size of the mrker accordingly. 
 function markerSize(numPlayers) {
   if (numPlayers === 0) {
-    return magnitude * 1
+    return numPlayers * 1
   };
   return numPlayers * 100
 };
@@ -55,125 +56,163 @@ function markerColor(numPlayers) {
 };
 
 //Create marker group for individual palyers
-function createPlayerMarkers(data) {
+function createMarkers(data,pStatus) {
+    
+    let total=0;
+    let allStar=0;
+    let hallOfFame=0;
+   
+    // Initialize anarray to hold player markers.
+    let allStarMarkers = [];    
+    let allTypesMarkers=[];
+    let hallofFameMarkers=[];
 
-  // Initialize anarray to hold player markers.
-  let playerMarkers = [];
+    //select the data as per the user selected 
+    if (pStatus==="all"){
+      total=data.total;	    
 
-  // Loop through the all the earthquake array.
+    }
+    else if (pStatus==="active"){
+      total=data.activeTotal;
+      allStar=data.aAllStar;
+      hallOfFame=data.aHallOfFame;		
+    }
+    else if (pStatus==="inactive"){
+      total=data.inactiveTotal;
+      allStar=data.inaAllStar
+      hallOfFame=data.inaHallOfFame
+
+    }
+    // Loop through the all the earthquake array.
   for (let row = 0; row < data.length; row++) {
-    playerData=data[row];
-  
-    // For each earthquake, create a marker, and bind a popup with the tittle and the place.
-    let PlayerMaker = L.circle([playerData.lat,playerData.lon],{
+    playerData=data[row];  
+    // For each all palyers, create a marker, and bind a popup with the sats .
+    let allMaker = L.circle([playerData.lat,playerData.lon],{
         fillOpacity: 0.75,
         color: markerColor(playerData.total),
         radius: markerSize(playerData.total),
         //title:cities[i].name      
     }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Active Players:   " + playerData.activeTotal + "</h4>" + "<hr><h4> Inactive " + playerData.inactiveTotal + "</h4>");
-
     // Add the marker to the earthquakeMarkers array.
-    playerMarkers.push(PlayerMaker);
-  }
+    allTypesMarkers.push(allMaker);
 
-  //Return the layer group the main function
-  return L.layerGroup(playerMarkers)
-}
+   //Creta a marker for allStar players
+    let allStarMaker = L.circle([playerData.lat,playerData.lon],{
+      fillOpacity: 0.75,
+      color: markerColor(allStar),
+      radius: markerSize(allStar),
+      //title:cities[i].name      
+    }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Active Players:   " + playerData.activeTotal + "</h4>" + "<hr><h4> Inactive " + playerData.inactiveTotal + "</h4>");
+    // Add the marker to the earthquakeMarkers array.
+    allStarMarkers.push(allStarMaker);
+
+   //Creta a marker for allStar players
+   let hallOfFame = L.circle([playerData.lat,playerData.lon],{
+    fillOpacity: 0.75,
+    color: markerColor(allStar),
+    radius: markerSize(allStar),
+    //title:cities[i].name      
+  }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Active Players:   " + playerData.activeTotal + "</h4>" + "<hr><h4> Inactive " + playerData.inactiveTotal + "</h4>");
+  // Add the marker to the earthquakeMarkers array.
+  hallofFameMarkers.push(hallOfFame);
+  }
+    //add markers to the layer group
+    allTypesMarkersGroup=L.layerGroup(allTypesMarkers);
+    allStarMarkersGroup=L.layerGroup(allStarMarkers);
+    hallofFameMarkersGroup=L.layerGroup(hallofFameMarkers);
+   
+    // Create an overlayMaps object to hold the states count layer.
+    let overlayMaps = {
+      "All Types": allTypesMarkersGroup, 
+      "AllStar": allStarMarkersGroup,
+      "HallOfFame":hallofFameMarkersGroup
+
+    }; 
+
+    allTypesMarkersGroup.addTo(myMap);
+    allStarMarkersGroup.addTo(myMap);
+    hallofFameMarkersGroup.addTo(myMap);
+
+    L.control.layers(baseMap, overlayMaps, {
+      collapsed: false
+    }).addTo(myMap); 
+   };
+
 // end of player marker group
 
-// Build the metadata panel
-function buildMetadata(sample) {
-  d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
-
-    // get the metadata field
-
-
-    // Filter the metadata for the object with the desired sample number
-
-
-    // Use d3 to select the panel with id of `#sample-metadata`
-
-
-    // Use `.html("") to clear any existing metadata
-
-
-    // Inside a loop, you will need to use d3 to append new
-    // tags for each key-value in the filtered metadata.
-
-  });
-}
-
 // function to build both charts
-function buildCharts(sample) {
-  d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
+function buildCharts(playerStatus) {
+  //Read data from datasorce 
+  d3.csv("SampleData.csv").then(function(data) {
+    
+   // Filter the samples for the object with the desired sample number
+   function filterDatabyStatus(data, paraStatus) {
+    return data.filter(obj => obj.activestatus === paraStatus);
+    };
+   if (playerStatus==='all'){
+    let playerData=data;
+   }
+   else if (playerStatus==='active'){
+    let playerData=filterDatabyStatus(data,'Active')
 
-    // Get the samples field
+   }
+   else if (playerStatus==='inactive'){
+    let playerData=filterDatabyStatus(data,'Inactive')
 
+   }
 
-    // Filter the samples for the object with the desired sample number
+   // Sort the data by the 'age' field in ascending order
+   data.sort((a, b) => b.H - a.H);
+   let topTenPlayers=data.slice(0,11)
+   console.log(topTenPlayers)
+   let topTenPlayersNames=[];
+   let topTenPlayersScore=[];
+   let topTenPlayersBirhtPlace=[];
+   let topTenPlayersHits=[];
 
-
-    // Get the otu_ids, otu_labels, and sample_values
-
-
-    // Build a Bubble Chart
-
-
-    // Render the Bubble Chart
-
-
-    // For the Bar Chart, map the otu_ids to a list of strings for your yticks
-
-
-    // Build a Bar Chart
-    // Don't forget to slice and reverse the input data appropriately
+   for (let i = 0; i <= 10; i++) {
+    topTenPlayersNames.push(topTenPlayers[i].nameGiven);
+    topTenPlayersScore.push(topTenPlayers[i].H);
+    topTenPlayersBirhtPlace.push(topTenPlayers[i].birthCountry+"-" + topTenPlayers[i].birthState +"-"+ topTenPlayers[i].birthCity ) ;
+   }
+// Build a Bar Chart
+    let dataBar = [
+      {
+          y: topTenPlayersScore, 
+          x: topTenPlayersNames,
+          type: 'bar',
+          hoverinfo:topTenPlayersBirhtPlace
+          //orientation: 'h'
+      }
+      ];
+  
+  // Layout configuration for the chart
+   let layoutBar = {
+      title: 'Top 10 hitters'
+   };
 
 
     // Render the Bar Chart
-
+    Plotly.newPlot('bar', dataBar, layoutBar);
+   
   });
 }
 
 // Function to run on page load
-
 function init() {
-  // Load the CSV file using D3
-d3.csv("Summary.csv").then(function(data) {
-  // Work with the data
-  console.log(data); // Output the data to the console
-
-/*
-const groupByStates = data.reduce((acc, obj) => {
-  const key = obj.birthState;
-  if (!acc[key]) {
-      acc[key] = {location:[obj.lat,obj.lon],numPlayers:0};
-  }
-  acc[key].numPlayers++;
-  return acc;
-}, {});
-
-console.log(groupByStates)
-*/
-playerMarkerGroup=createPlayerMarkers(data);
- // Create an overlayMaps object to hold the states count layer.
- let overlayMaps = {
-  "States Counts": playerMarkerGroup
-};
-
-playerMarkerGroup.addTo(myMap);
-
-L.control.layers(baseMaps, overlayMaps, {
-  collapsed: false
-}).addTo(myMap);   
-
+  d3.csv("Summary.csv").then(function(data) {
+  createMarkers(data,"all");
+  buildCharts('active');
   });
-}
+};
   
 
 // Function for event listener
-function optionChanged(newSample) {
-  // Build charts and metadata panel each time a new sample is selected
-
+function optionChanged(playerStatus) {
+  console.log(playerStatus)
+  //createMarkers(data,playerStatus);
+  buildCharts(playerStatus);
+  
 }
 
 // Initialize the dashboard
