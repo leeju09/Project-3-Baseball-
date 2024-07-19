@@ -1,6 +1,7 @@
-  //Creating world map 
+  //Central point 
   let centLat= 44.97;
   let centLong= -103.78;
+
   // Create the tile layer that will be the background of our map.
   let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -55,18 +56,33 @@ function markerColor(numPlayers) {
 };
 
 //Create marker group for individual palyers
-function createMarkers(data) {
+function createMarkers(data,pStatus) {
     
     let total=0;
     let allStar=0;
     let hallOfFame=0;
-
    
     // Initialize anarray to hold player markers.
+    let allStarMarkers = [];    
     let allTypesMarkers=[];
-    let allStarMarkers = []; 
     let hallofFameMarkers=[];
 
+    //select the data as per the user selected 
+    if (pStatus==="all"){
+      total=data.total;	    
+
+    }
+    else if (pStatus==="active"){
+      total=data.activeTotal;
+      allStar=data.aAllStar;
+      hallOfFame=data.aHallOfFame;		
+    }
+    else if (pStatus==="inactive"){
+      total=data.inactiveTotal;
+      allStar=data.inaAllStar
+      hallOfFame=data.inaHallOfFame
+
+    }
     // Loop through the all the earthquake array.
   for (let row = 0; row < data.length; row++) {
     playerData=data[row];  
@@ -76,27 +92,27 @@ function createMarkers(data) {
         color: markerColor(playerData.total),
         radius: markerSize(playerData.total),
         //title:cities[i].name      
-    }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
+    }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + (playerData.aAllStar+playerData.inaAllStar) +  "</h4>" + "<hr><h4> HallOfFame : " + (playerData.aHallOfFame+playerData.inaHallOfFame) +  "</h4>");
     // Add the marker to the earthquakeMarkers array.
     allTypesMarkers.push(allMaker);
 
    //Creta a marker for allStar players
     let allStarMaker = L.circle([playerData.lat,playerData.lon],{
       fillOpacity: 0.75,
-      color: markerColor(playerData.allStar),
-      radius: markerSize(playerData.allStar),
+      color: markerColor(allStar),
+      radius: markerSize(allStar),
       //title:cities[i].name      
-    }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
+    }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Active Players:   " + playerData.activeTotal + "</h4>" + "<hr><h4> Inactive " + playerData.inactiveTotal + "</h4>");
     // Add the marker to the earthquakeMarkers array.
     allStarMarkers.push(allStarMaker);
 
    //Creta a marker for allStar players
    let hallOfFame = L.circle([playerData.lat,playerData.lon],{
     fillOpacity: 0.75,
-    color: markerColor(playerData.hallOfFame),
-    radius: markerSize(playerData.hallOfFame),
+    color: markerColor(allStar),
+    radius: markerSize(allStar),
     //title:cities[i].name      
-  }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
+  }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Active Players:   " + playerData.activeTotal + "</h4>" + "<hr><h4> Inactive " + playerData.inactiveTotal + "</h4>");
   // Add the marker to the earthquakeMarkers array.
   hallofFameMarkers.push(hallOfFame);
   }
@@ -129,6 +145,22 @@ function buildCharts(playerStatus) {
   //Read data from datasorce 
   d3.csv("SampleData.csv").then(function(data) {
     
+   // Filter the samples for the object with the desired sample number
+   function filterDatabyStatus(data, paraStatus) {
+    return data.filter(obj => obj.activestatus === paraStatus);
+    };
+   if (playerStatus==='all'){
+    let playerData=data;
+   }
+   else if (playerStatus==='active'){
+    let playerData=filterDatabyStatus(data,'Active')
+
+   }
+   else if (playerStatus==='inactive'){
+    let playerData=filterDatabyStatus(data,'Inactive')
+
+   }
+
    // Sort the data by the 'age' field in ascending order
    data.sort((a, b) => b.H - a.H);
    let topTenPlayers=data.slice(0,11)
@@ -177,6 +209,19 @@ function init() {
  // let geoData = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/15-Mapping-Web/ACS-ED_2014-2018_Economic_Characteristics_FL.geojson";
  //console.log(geoData);
 };
+  
+
+// Function for event listener
+function optionChanged(playerStatus) {
+  console.log(playerStatus)
+  d3.csv("Summary.csv").then(function(data) {
+    createMarkers(data,playerStatus);
+    buildCharts(playerStatus);
+    });
+
+    
+  
+}
 
 // Initialize the dashboard
 init();

@@ -23,21 +23,43 @@
             <p>Use the interactive charts below to explore the dataset</p>
             <p>Jim,Juli,Ann,Walgama</p>
             <div id="map"></div>
-            <div id="usamap"></div>
-            <div id="bar"></div>
         </div>
     </div>
-<!-- 
-  <div class="row">
+  <div class="container">    
+     </div>    
+    <div class="row">
+      <div class="col-md-3">
+
+        <div class="card card-body bg-light">
+          <h6>Player Status:</h6>
+          <select id="selDataset" onchange="optionChanged(this.value)"> 
+              <option value="all">All Players</option>
+              <option value="active">Active Players</option>
+              <option value="inactive">Inactive Players</option>
+          </select>
+         </div>
+
+        <br>
+        <div class="card card-primary">
+          <div class="card-header">
+            <h4 class="card-title">Demographic Info</h4>
+          </div>
+          <div id="sample-metadata" class="card-body"></div>
+        </div>
+        
+      </div>      
+         
+    </div>
+    <div class="row">
       <div class="col-md-9">
         <div id="bar"></div>
       </div>
       <div class="col-md-12">
         <div id="bubble"></div>
       </div>
+    </div>
   </div>
-  </div>
--->  
+    
    <!-- Leaflet JavaScript code-->
  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
