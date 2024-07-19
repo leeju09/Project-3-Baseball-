@@ -1,4 +1,15 @@
-  //Creating world map 
+ 
+ // Function to find the value of a specific attribute in a list of dictionaries
+function findValueInList(list, attribute, valueToFind,valueToReturn) {
+  for (let i = 0; i < list.length; i++) {
+      if (list[i][attribute] === valueToFind) {
+          return list[i][valueToReturn];
+      }
+  }
+  return 0; // Return 0 if the value is not found
+}
+ 
+ //Creating Initial Map world map 
   let centLat= 44.97;
   let centLong= -103.78;
   // Create the tile layer that will be the background of our map.
@@ -18,7 +29,6 @@
 
 });
 
-
 //This function accept the player count and return the size of the mrker accordingly. 
 function markerSize(numPlayers) {
   if (numPlayers === 0) {
@@ -26,7 +36,6 @@ function markerSize(numPlayers) {
   };
   return numPlayers * 100
 };
-
 
 //this function returs the color as per the players count
 function markerColor(numPlayers) {
@@ -72,7 +81,7 @@ function createMarkers(data) {
     playerData=data[row];  
     // For each all palyers, create a marker, and bind a popup with the sats .
     let allMaker = L.circle([playerData.lat,playerData.lon],{
-        fillOpacity: 0.5,
+        fillOpacity: 0.75,
         color: markerColor(playerData.total),
         radius: markerSize(playerData.total),
         //title:cities[i].name      
@@ -82,7 +91,7 @@ function createMarkers(data) {
 
    //Creta a marker for allStar players
     let allStarMaker = L.circle([playerData.lat,playerData.lon],{
-      fillOpacity: 0.5,
+      fillOpacity: 0.75,
       color: markerColor(playerData.allStar),
       radius: markerSize(playerData.allStar),
       //title:cities[i].name      
@@ -92,7 +101,7 @@ function createMarkers(data) {
 
    //Creta a marker for allStar players
    let hallOfFame = L.circle([playerData.lat,playerData.lon],{
-    fillOpacity: 0.5,
+    fillOpacity: 0.75,
     color: markerColor(playerData.hallOfFame),
     radius: markerSize(playerData.hallOfFame),
     //title:cities[i].name      
@@ -107,9 +116,9 @@ function createMarkers(data) {
    
     // Create an overlayMaps object to hold the states count layer.
     let overlayMaps = {
-      "MLB Players": allTypesMarkersGroup, 
-      "All Star Players": allStarMarkersGroup,
-      "Hall of Fame Players":hallofFameMarkersGroup
+      "All Types": allTypesMarkersGroup, 
+      "AllStar": allStarMarkersGroup,
+      "HallOfFame":hallofFameMarkersGroup
 
     }; 
 
@@ -124,15 +133,114 @@ function createMarkers(data) {
 
 // end of player marker group
 
+//Creattin choropleth map for only for USA palyers 
+function usaMap(bbData) {
+  // Load the boundaries of the states
+  var geojsonData = './Resources/us-states.json';
+
+  // Create a Leaflet map centered at a specific location
+  var USmap = L.map('usamap').setView([37.0902, -95.7129], 4);
+
+  // Add a tile layer to the map (e.g., OpenStreetMap)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; OpenStreetMap contributors'
+  }).addTo(USmap);
+
+  // Create a choropleth layer
+  fetch(geojsonData)
+    .then(response => response.json())
+    .then(data => {
+      let geojson = L.choropleth(data, {
+        valueProperty: function(feature) {
+          return findValueInList(bbData, "birthState", feature.properties.code, "total");
+        },
+        scale: ["#ffffb2", "#b10026"],
+        steps: 10,
+        mode: 'q',
+        style: {
+          color: '#fff',
+          weight: 1,
+          fillOpacity: 0.8
+        },
+        // Binding a popup to each layer
+        onEachFeature: function(feature, layer) {
+          layer.bindPopup("<strong>" + feature.properties.name + "</strong><br /><br />No of players " +
+            findValueInList(bbData, "birthState", feature.properties.code, "total"));
+        }
+      }).addTo(USmap);
+
+      // Set up the legend.
+      let legend = L.control({ position: "bottomright" });
+      legend.onAdd = function() {
+        let div = L.DomUtil.create("div", "info legend");
+        let limits = geojson.options.limits;
+        let colors = geojson.options.colors;
+        let labels = [];
+
+        // Add the minimum and maximum.
+        let legendInfo = "<h1>Players Density <br />(1876-2015)</h1>" +
+          "<div class=\"labels\">" +
+          "<div class=\"min\">" + limits[0] + "</div>" +
+          "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+          "</div>";
+
+        div.innerHTML = legendInfo;
+
+        limits.forEach(function(limit, index) {
+          labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+        });
+
+        div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+        return div;
+      };
+
+      // Adding the legend to the map
+      legend.addTo(USmap);
+    });
+}
+
+//function to build bar graph to using palyes DOB data bucket
+function buildCharts(){
+  //Read data from datasorce 
+  d3.csv("./Resources/BirthYearBucket.csv").then(function(data) {
+    console.log(data);
+    let xticks=[];
+    let yticks=[];
+
+    for (let row = 0; row < data.length; row++) {
+      yearData=data[row];  
+      xticks.push(yearData.Year_Bucket);
+      yticks.push(yearData.numPlayers);
+     }
+  
+// Build a Bar Chart
+    let dataBar = [      {
+          y: yticks, 
+          x: xticks,
+          type: 'bar',
+          //orientation: 'h'
+      }
+      ];  
+  // Layout configuration for the chart
+   let layoutBar = {
+      title: 'Players Birth Year Distribution'
+   };
+    // Render the Bar Chart
+    Plotly.newPlot('bar', dataBar, layoutBar);
+   
+  });
+}
+
 // function to build both charts
-function buildCharts(playerStatus) {
+function buildCharts_old(playerStatus) {
   //Read data from datasorce 
   d3.csv("SampleData.csv").then(function(data) {
-    
+    //console.log(data);
+     
    // Sort the data by the 'age' field in ascending order
    data.sort((a, b) => b.H - a.H);
    let topTenPlayers=data.slice(0,11)
-   console.log(topTenPlayers)
+   //console.log(topTenPlayers)
    let topTenPlayersNames=[];
    let topTenPlayersScore=[];
    let topTenPlayersBirhtPlace=[];
@@ -158,8 +266,6 @@ function buildCharts(playerStatus) {
    let layoutBar = {
       title: 'Top 10 hitters'
    };
-
-
     // Render the Bar Chart
     Plotly.newPlot('bar', dataBar, layoutBar);
    
@@ -168,14 +274,11 @@ function buildCharts(playerStatus) {
 
 // Function to run on page load
 function init() {
-
-  d3.csv("Summary.csv").then(function(data) {
+  d3.csv("./Resources/Summary.csv").then(function(data) {   
   createMarkers(data,"all");
-  buildCharts('all');
+  usaMap(data);  
   });
-  
- // let geoData = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/15-Mapping-Web/ACS-ED_2014-2018_Economic_Characteristics_FL.geojson";
- //console.log(geoData);
+  buildCharts(); 
 };
 
 // Initialize the dashboard
