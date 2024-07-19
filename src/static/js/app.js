@@ -72,7 +72,7 @@ function createMarkers(data) {
     playerData=data[row];  
     // For each all palyers, create a marker, and bind a popup with the sats .
     let allMaker = L.circle([playerData.lat,playerData.lon],{
-        fillOpacity: 0.75,
+        fillOpacity: 0.5,
         color: markerColor(playerData.total),
         radius: markerSize(playerData.total),
         //title:cities[i].name      
@@ -82,7 +82,7 @@ function createMarkers(data) {
 
    //Creta a marker for allStar players
     let allStarMaker = L.circle([playerData.lat,playerData.lon],{
-      fillOpacity: 0.75,
+      fillOpacity: 0.5,
       color: markerColor(playerData.allStar),
       radius: markerSize(playerData.allStar),
       //title:cities[i].name      
@@ -92,7 +92,7 @@ function createMarkers(data) {
 
    //Creta a marker for allStar players
    let hallOfFame = L.circle([playerData.lat,playerData.lon],{
-    fillOpacity: 0.75,
+    fillOpacity: 0.5,
     color: markerColor(playerData.hallOfFame),
     radius: markerSize(playerData.hallOfFame),
     //title:cities[i].name      
@@ -107,9 +107,9 @@ function createMarkers(data) {
    
     // Create an overlayMaps object to hold the states count layer.
     let overlayMaps = {
-      "All Types": allTypesMarkersGroup, 
-      "AllStar": allStarMarkersGroup,
-      "HallOfFame":hallofFameMarkersGroup
+      "MLB Players": allTypesMarkersGroup, 
+      "All Star Players": allStarMarkersGroup,
+      "Hall of Fame Players":hallofFameMarkersGroup
 
     }; 
 
