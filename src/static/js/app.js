@@ -32,9 +32,9 @@ function findValueInList(list, attribute, valueToFind,valueToReturn) {
 //This function accept the player count and return the size of the mrker accordingly. 
 function markerSize(numPlayers) {
   if (numPlayers === 0) {
-    return numPlayers * 1
+    return numPlayers=0
   };
-  return numPlayers * 100
+  return numPlayers * 1000
 };
 
 //this function returs the color as per the players count
@@ -178,7 +178,7 @@ function usaMap(bbData) {
         let labels = [];
 
         // Add the minimum and maximum.
-        let legendInfo = "<h1>Players Density <br />(1876-2015)</h1>" +
+        let legendInfo = "<h5>Players Density <br />(1876-2015)</h1>" +
           "<div class=\"labels\">" +
           "<div class=\"min\">" + limits[0] + "</div>" +
           "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
@@ -203,7 +203,7 @@ function usaMap(bbData) {
 function buildCharts(){
   //Read data from datasorce 
   d3.csv("./Resources/BirthYearBucket.csv").then(function(data) {
-    console.log(data);
+    //console.log(data);
     let xticks=[];
     let yticks=[];
 
@@ -275,6 +275,7 @@ function buildCharts_old(playerStatus) {
 // Function to run on page load
 function init() {
   d3.csv("./Resources/Summary.csv").then(function(data) {   
+  console.log(data);  
   createMarkers(data,"all");
   usaMap(data);  
   });
