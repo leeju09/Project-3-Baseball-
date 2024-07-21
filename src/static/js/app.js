@@ -34,7 +34,7 @@ function markerSize(numPlayers) {
   if (numPlayers === 0) {
     return numPlayers=0
   };
-  return numPlayers * 1000
+  return numPlayers * 100
 };
 
 //this function returs the color as per the players count
@@ -65,12 +65,7 @@ function markerColor(numPlayers) {
 
 //Create marker group for individual palyers
 function createMarkers(data) {
-    
-    let total=0;
-    let allStar=0;
-    let hallOfFame=0;
-
-   
+  
     // Initialize anarray to hold player markers.
     let allTypesMarkers=[];
     let allStarMarkers = []; 
@@ -84,7 +79,7 @@ function createMarkers(data) {
         fillOpacity: 0.75,
         color: markerColor(playerData.total),
         radius: markerSize(playerData.total),
-        //title:cities[i].name      
+           
     }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
     // Add the marker to the earthquakeMarkers array.
     allTypesMarkers.push(allMaker);
@@ -93,8 +88,8 @@ function createMarkers(data) {
     let allStarMaker = L.circle([playerData.lat,playerData.lon],{
       fillOpacity: 0.75,
       color: markerColor(playerData.allStar),
-      radius: markerSize(playerData.allStar),
-      //title:cities[i].name      
+      radius: markerSize(playerData.allStar)*10,
+        
     }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
     // Add the marker to the earthquakeMarkers array.
     allStarMarkers.push(allStarMaker);
@@ -103,7 +98,7 @@ function createMarkers(data) {
    let hallOfFame = L.circle([playerData.lat,playerData.lon],{
     fillOpacity: 0.75,
     color: markerColor(playerData.hallOfFame),
-    radius: markerSize(playerData.hallOfFame),
+    radius: markerSize(playerData.hallOfFame)*10,
     //title:cities[i].name      
   }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
   // Add the marker to the earthquakeMarkers array.
@@ -164,16 +159,18 @@ function usaMap(bbData) {
         },
         // Binding a popup to each layer
         onEachFeature: function(feature, layer) {
-          layer.bindPopup("<strong>" + feature.properties.name + "</strong><br /><br />No of players " +
-            findValueInList(bbData, "birthState", feature.properties.code, "total"));
+          layer.bindPopup("<strong>" + feature.properties.name + "</strong><br /><br />Total players :" +
+            findValueInList(bbData, "birthState", feature.properties.code, "total") + "<br /><br />AllStar : " +
+            findValueInList(bbData, "birthState", feature.properties.code, "allStar") + "<br /><br />HallOfFame : " +
+            findValueInList(bbData, "birthState", feature.properties.code, "hallOfFame")
+            );
         }
       }).addTo(USmap);
-
       // Set up the legend.
       let legend = L.control({ position: "bottomright" });
       legend.onAdd = function() {
         let div = L.DomUtil.create("div", "info legend");
-        let limits = geojson.options.limits;
+        let limits = [0,200,400,600,800,1000,1200,1400,1900,2200]//geojson.options.limits;
         let colors = geojson.options.colors;
         let labels = [];
 
@@ -231,51 +228,11 @@ function buildCharts(){
   });
 }
 
-// function to build both charts
-function buildCharts_old(playerStatus) {
-  //Read data from datasorce 
-  d3.csv("SampleData.csv").then(function(data) {
-    //console.log(data);
-     
-   // Sort the data by the 'age' field in ascending order
-   data.sort((a, b) => b.H - a.H);
-   let topTenPlayers=data.slice(0,11)
-   //console.log(topTenPlayers)
-   let topTenPlayersNames=[];
-   let topTenPlayersScore=[];
-   let topTenPlayersBirhtPlace=[];
-   let topTenPlayersHits=[];
-
-   for (let i = 0; i <= 10; i++) {
-    topTenPlayersNames.push(topTenPlayers[i].nameGiven);
-    topTenPlayersScore.push(topTenPlayers[i].H);
-    topTenPlayersBirhtPlace.push(topTenPlayers[i].birthCountry+"-" + topTenPlayers[i].birthState +"-"+ topTenPlayers[i].birthCity ) ;
-   }
-// Build a Bar Chart
-    let dataBar = [
-      {
-          y: topTenPlayersScore, 
-          x: topTenPlayersNames,
-          type: 'bar',
-          hoverinfo:topTenPlayersBirhtPlace
-          //orientation: 'h'
-      }
-      ];
-  
-  // Layout configuration for the chart
-   let layoutBar = {
-      title: 'Top 10 hitters'
-   };
-    // Render the Bar Chart
-    Plotly.newPlot('bar', dataBar, layoutBar);
-   
-  });
-}
 
 // Function to run on page load
 function init() {
   d3.csv("./Resources/Summary.csv").then(function(data) {   
-  console.log(data);  
+  //console.log(data);  
   createMarkers(data,"all");
   usaMap(data);  
   });
