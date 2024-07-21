@@ -166,6 +166,7 @@ function usaMap(bbData) {
             );
         }
       }).addTo(USmap);
+      
       // Set up the legend.
       let legend = L.control({ position: "bottomright" });
       legend.onAdd = function() {
