@@ -41,7 +41,7 @@ function markerSize(numPlayers) {
 function markerColor(numPlayers) {
   var color = "";
   if (numPlayers >= 0 && numPlayers <= 100) {
-      return color = "#98ee00";
+      return color = "black";
   }
   else if (numPlayers > 100 && numPlayers <= 200) {
       return color = "#d4ee00";
@@ -59,7 +59,7 @@ function markerColor(numPlayers) {
       return color = "#ea2c2c";
   }
   else {
-      return color = "black";
+      return color = "grey";
   }
 };
 
