@@ -11,9 +11,9 @@
 Baseball players' birthplaces and birth years offers a comprehensive view of the sport's evolution, talent distribution, and cultural impact. It provides valuable insights for teams, analysts, historians, and fans alike, helping to inform decisions and strategies in various aspects of baseball management and promotion. The datasets that we used was from Hall of Fame and All-Star players from 1871 to 2015.
 ***********
 ## How to Interact with our graphs and chart:
-- [World Density](Poss JPG/worldDensity.png)
-- [United States Density](Poss JPG/USADensity.png)
-- [Player count over the years](Poss JPG/PlayerCount.png)
+- [World Density](PossJPG/worldDensity.png)
+- [United States Density](PossJPG/USADensity.png)
+- [Player count over the years](PossJPG/PlayerCount.png)
 
 **********
 ## Ethical Considerations
