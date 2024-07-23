@@ -30,7 +30,7 @@ We pulled all our data from this website.
 https://www.kaggle.com/datasets/open-source-sports/baseball-databank
 
 ## Folder Description
-- KagleData: This folder contains all the source data that downloaded from the kagle site.
+- KagleData: This folder contains all the source data that downloaded from the kaggle site.
 - Poss JPG : This folder contains all the images used in the web site.
 - Presentation : Final presentation of the project work:
 - Proposal : This folder contains the project proposal. 
@@ -45,11 +45,12 @@ https://www.kaggle.com/datasets/open-source-sports/baseball-databank
   
 - Instructions for execution and further developments
   - Create a new folder  in your local machine.
-  - [Download the entire contains from the git repository to the newly created flooder ]()
-  - Open the MongoDB server by using "mongosh" in your command line.  
+  - [Download the entire contains from the git repository to the newly created foldder ]()
+  - Prompts and instructions to create your MongoDB database is located in Baseball_MongDB.ipynb 
   - open the Anaconda prompt and execute the following file notebooks from the "Python Scripts" folder.
-    - Data_Cleaning.ipynb
-	- julis momgo gile here
+    - Data_Cleaning_WA.ipynb
+	-Baseball_MongDB.ipynb
+	
   - Open the folder newly created flooder trough the VS code.
   - Open the index.html file using the "Live Sever", right click on the file and top option.   
 
