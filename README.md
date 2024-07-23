@@ -1,5 +1,5 @@
 <h1 align="center">MLB Players from 1876-2015 Birthplaces </h1>
-<h4 align="center"> Project collaborator :Jim Pieper ,Julia Lee ,Ann lu ,Walgama</h4>
+<h4 align="center"> Project collaborators :Jim Pieper ,Julia Lee ,Ann lu ,Walgama</h4>
 
 <div align="center">
 	<img src="Poss JPG/ReadmeImmage.png">
@@ -36,7 +36,7 @@ https://www.kaggle.com/datasets/open-source-sports/baseball-databank
 - Proposal : This folder contains the project proposal. 
 - Python Scripts : All the data cleaning and web scraping jupyter notebooks.
 
-## Instruction & Tools 
+## Instructions & Tools 
 - Tools 
   - [VS code](https://code.visualstudio.com/download)
   - [Jupyter Notebook](https://docs.anaconda.com/anaconda/install/)
