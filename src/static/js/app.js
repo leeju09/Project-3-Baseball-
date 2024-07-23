@@ -28,35 +28,33 @@ function findValueInList(list, attribute, valueToFind,valueToReturn) {
     layers: [streetmap]
 
 });
-
-//This function accept the player count and return the size of the mrker accordingly. 
 function markerSize(numPlayers) {
   if (numPlayers === 0) {
     return numPlayers=0
   };
-  return numPlayers * 100
+  return Math.sqrt(numPlayers) * 2000
 };
 
-//this function returs the color as per the players count
+//This function accept the player count and return the size of the mrker accordingly. 
 function markerColor(numPlayers) {
   var color = "";
   if (numPlayers >= 0 && numPlayers <= 100) {
       return color = "black";
   }
-  else if (numPlayers > 100 && numPlayers <= 200) {
-      return color = "#d4ee00";
+  else if (numPlayers > 100 && numPlayers <= 500) {
+      return color = "#D4EE00";
   }
-  else if (numPlayers > 200 && numPlayers <= 300) {
-      return color = "#eecc00";
+  else if (numPlayers > 500 && numPlayers <= 800) {
+      return color = "#EECC00";
   }
-  else if (numPlayers > 300 && numPlayers <= 500) {
-      return color =  "#ee9c00";
+  else if (numPlayers > 800 && numPlayers <= 1000) {
+      return color =  "#EE9C00";
   }
-  else if (numPlayers > 500 && numPlayers <= 1000) {
-      return color = "#ea822c";
+  else if (numPlayers > 1000 && numPlayers <= 1500) {
+      return color = "#EA822C";
   }
-  else if (1000 < numPlayers) {
-      return color = "#ea2c2c";
+  else if (1500 < numPlayers) {
+      return color = "#EA2C2C";
   }
   else {
       return color = "grey";
@@ -88,7 +86,7 @@ function createMarkers(data) {
     let allStarMaker = L.circle([playerData.lat,playerData.lon],{
       fillOpacity: 0.75,
       color: markerColor(playerData.allStar),
-      radius: markerSize(playerData.allStar)*10,
+      radius: markerSize(playerData.allStar),
         
     }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
     // Add the marker to the earthquakeMarkers array.
@@ -98,7 +96,7 @@ function createMarkers(data) {
    let hallOfFame = L.circle([playerData.lat,playerData.lon],{
     fillOpacity: 0.75,
     color: markerColor(playerData.hallOfFame),
-    radius: markerSize(playerData.hallOfFame)*10,
+    radius: markerSize(playerData.hallOfFame),
     //title:cities[i].name      
   }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
   // Add the marker to the earthquakeMarkers array.
@@ -221,7 +219,7 @@ function buildCharts(){
       ];  
   // Layout configuration for the chart
    let layoutBar = {
-      title: 'Players Birth Year Distribution'
+      title: 'Players Birth Decade Distribution'
    };
     // Render the Bar Chart
     Plotly.newPlot('bar', dataBar, layoutBar);
