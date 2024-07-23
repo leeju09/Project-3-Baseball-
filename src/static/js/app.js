@@ -41,26 +41,26 @@ function markerSize(numPlayers) {
 //this function returs the color as per the players count
 function markerColor(numPlayers) {
   var color = "";
-  if (numPlayers >= 0 && numPlayers <= 100) {
-      return color = "black";
+  if (numPlayers >= 0 && numPlayers <= 10) {
+      return color = "red";
   }
-  else if (numPlayers > 100 && numPlayers <= 500) {
-      return color = "#D4EE00";
+  else if (numPlayers > 10 && numPlayers <= 75) {
+      return color = "#purple";
   }
-  else if (numPlayers > 500 && numPlayers <= 800) {
-      return color = "#EECC00";
+  else if (numPlayers > 75 && numPlayers <= 250) {
+      return color = "#green";
   }
-  else if (numPlayers > 800 && numPlayers <= 1000) {
-      return color =  "#EE9C00";
+  else if (numPlayers > 250 && numPlayers <= 700) {
+      return color =  "grey";
   }
-  else if (numPlayers > 1000 && numPlayers <= 1500) {
-      return color = "#EA822C";
+  else if (numPlayers > 700 && numPlayers <= 2200) {
+      return color = "blue";
   }
-  else if (1500 < numPlayers) {
-      return color = "#EA2C2C";
+  else if (100 < numPlayers) {
+      return color = "yellow";
   }
   else {
-      return color = "grey";
+      return color = "pink";
   }
 };
 
