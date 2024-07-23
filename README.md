@@ -1,4 +1,5 @@
-# Project-3-Baseball-
+<h1 align="center">MLB Players from 1876-2015 Birthplaces </h1>
+<h4 align="center"> Project collaborator :Jim Pieper ,Julia Lee ,Ann lu ,Walgama</h4>
 
 <div align="center">
 	<img src="Poss JPG/ReadmeImmage.png">
@@ -10,6 +11,9 @@
 Baseball players' birthplaces and birth years offers a comprehensive view of the sport's evolution, talent distribution, and cultural impact. It provides valuable insights for teams, analysts, historians, and fans alike, helping to inform decisions and strategies in various aspects of baseball management and promotion. The datasets that we used was from Hall of Fame and All-Star players from 1871 to 2015.
 ***********
 ## How to Interact with our graphs and chart:
+- [World Density](Poss JPG/worldDensity.png)
+- [United States Density](Poss JPG/USADensity.png)
+- [Player count over the years](Poss JPG/PlayerCount.png)
 
 **********
 ## Ethical Considerations
@@ -26,11 +30,28 @@ We pulled all our data from this website.
 https://www.kaggle.com/datasets/open-source-sports/baseball-databank
 
 ## Folder Description
+- KagleData: This folder contains all the source data that downloaded from the kagle site.
+- Poss JPG : This folder contains all the images used in the web site.
+- Presentation : Final presentation of the project work:
+- Proposal : This folder contains the project proposal. 
+- Python Scripts : All the data cleaning and web scraping jupyter notebooks.
 
-
-## Instruction to execute 
-
- 
+## Instruction & Tools 
+- Tools 
+  - [VS code](https://code.visualstudio.com/download)
+  - [Jupyter Notebook](https://docs.anaconda.com/anaconda/install/)
+  - [MongoDB](https://www.mongodb.com/try/download/community)
+  - [Live server for VS Code](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+  
+- Instructions for execution and further developments
+  - Create a new folder  in your local machine.
+  - [Download the entire contains from the git repository to the newly created flooder ]()
+  - Open the MongoDB server by using "mongosh" in your command line.  
+  - open the Anaconda prompt and execute the following file notebooks from the "Python Scripts" folder.
+    - Data_Cleaning.ipynb
+	- julis momgo gile here
+  - Open the folder newly created flooder trough the VS code.
+  - Open the index.html file using the "Live Sever", right click on the file and top option.   
 
 
 **********
