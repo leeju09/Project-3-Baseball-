@@ -48,8 +48,8 @@ https://www.kaggle.com/datasets/open-source-sports/baseball-databank
   - [Download the entire contains from the git repository to the newly created foldder ]()
   - Prompts and instructions to create your MongoDB database is located in Baseball_MongDB.ipynb 
   - open the Anaconda prompt and execute the following file notebooks from the "Python Scripts" folder.
-    - Data_Cleaning_WA.ipynb
-	-Baseball_MongDB.ipynb
+	- Data_Cleaning_WA.ipynb
+	- Baseball_MongDB.ipynb
 	
   - Open the folder newly created flooder trough the VS code.
   - Open the index.html file using the "Live Sever", right click on the file and top option.   
