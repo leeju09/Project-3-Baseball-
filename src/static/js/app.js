@@ -28,6 +28,8 @@ function findValueInList(list, attribute, valueToFind,valueToReturn) {
     layers: [streetmap]
 
 });
+
+//This function accept the player count and return the size of the mrker accordingly. 
 function markerSize(numPlayers) {
   if (numPlayers === 0) {
     return numPlayers=0
@@ -35,7 +37,8 @@ function markerSize(numPlayers) {
   return Math.sqrt(numPlayers) * 2000
 };
 
-//This function accept the player count and return the size of the mrker accordingly. 
+
+//this function returs the color as per the players count
 function markerColor(numPlayers) {
   var color = "";
   if (numPlayers >= 0 && numPlayers <= 100) {
@@ -86,7 +89,7 @@ function createMarkers(data) {
     let allStarMaker = L.circle([playerData.lat,playerData.lon],{
       fillOpacity: 0.75,
       color: markerColor(playerData.allStar),
-      radius: markerSize(playerData.allStar),
+      radius: markerSize(playerData.allStar)*10,
         
     }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
     // Add the marker to the earthquakeMarkers array.
@@ -96,7 +99,7 @@ function createMarkers(data) {
    let hallOfFame = L.circle([playerData.lat,playerData.lon],{
     fillOpacity: 0.75,
     color: markerColor(playerData.hallOfFame),
-    radius: markerSize(playerData.hallOfFame),
+    radius: markerSize(playerData.hallOfFame)*10,
     //title:cities[i].name      
   }).bindPopup("<h4>State or Country:   "  + playerData.birthState + "</h4><hr><h4>Total Players:   " + playerData.total + "</h4>" + "<hr><h4> AllStars : " + playerData.allStar +  "</h4>" + "<hr><h4> HallOfFame : " + playerData.hallOfFame +  "</h4>");
   // Add the marker to the earthquakeMarkers array.
@@ -164,7 +167,7 @@ function usaMap(bbData) {
             );
         }
       }).addTo(USmap);
-      
+
       // Set up the legend.
       let legend = L.control({ position: "bottomright" });
       legend.onAdd = function() {
@@ -196,9 +199,8 @@ function usaMap(bbData) {
 }
 
 //function to build bar graph to using palyes DOB data bucket
-function buildCharts(){
-  //Read data from datasorce 
-  d3.csv("./Resources/BirthYearBucket.csv").then(function(data) {
+function buildCharts(data){
+  
     //console.log(data);
     let xticks=[];
     let yticks=[];
@@ -222,20 +224,22 @@ function buildCharts(){
       title: 'Players Birth Decade Distribution'
    };
     // Render the Bar Chart
-    Plotly.newPlot('bar', dataBar, layoutBar);
-   
-  });
-}
-
+    Plotly.newPlot('bar', dataBar, layoutBar);  
+  
+};
 
 // Function to run on page load
 function init() {
+ //Create maps
   d3.csv("./Resources/Summary.csv").then(function(data) {   
   //console.log(data);  
-  createMarkers(data,"all");
+  createMarkers(data);
   usaMap(data);  
   });
-  buildCharts(); 
+//Create charts 
+  d3.csv("./Resources/BirthYearBucket.csv").then(function(data) {
+   buildCharts(data); 
+  });
 };
 
 // Initialize the dashboard
