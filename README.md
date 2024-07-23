@@ -1,5 +1,9 @@
 # Project-3-Baseball-
 
+<div align="center">
+	<img src="Poss JPG/ReadmeImmage.png">
+</div>
+
 *********
 ## Overview
 
@@ -20,6 +24,11 @@ https://www.baseball-almanac.com/players/birthplace.php
 
 We pulled all our data from this website.
 https://www.kaggle.com/datasets/open-source-sports/baseball-databank
+
+## Folder Description
+
+ 
+
 
 **********
 **for this project we worked as a group and went over any hurdles together, used Xpert Learning Assistant to look over if our codes work, have the TA and instructor for suggestions and help on our project. We also used in-class activity codes to help us with our project.
