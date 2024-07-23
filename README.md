@@ -49,13 +49,13 @@ https://www.kaggle.com/datasets/open-source-sports/baseball-databank
   - open the Anaconda prompt and execute the following file notebooks from the "Python Scripts" folder.
 	- Data_Cleaning_WA.ipynb
 - Prompts and instructions to create your owng MongoDB database is located in "Python Scripts" folder inside Baseball_MongDB.ipynb 
-	- Baseball_MongDB.ipynb
-	
-  - Open the folder newly created through the VS code.
-  - Open the index.html file using the "Live Server", right click on the file and top option.   
+	- Baseball_MongDB.ipynb	
+ - Open the folder newly created through the VS code.
+ - Open the index.html file using the "Live Server", right click on the file and top option.   
 
 
 **********
-**for this project we worked as a group and went over any hurdles together, used Xpert Learning Assistant to look over if our codes work, have the TA and instructor for suggestions and help on our project. We also used in-class activity codes to help us with our project.
+## Resources 
+For this project we worked as a group and went over any hurdles together, used Xpert Learning Assistant to look over if our codes work, have the TA and instructor for suggestions and help on our project. We also used in-class activity codes to help us with our project.
 ********
    
