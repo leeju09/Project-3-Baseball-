@@ -2,7 +2,7 @@
 <h4 align="center"> Project collaborators :Jim Pieper ,Julia Lee ,Ann lu ,Walgama</h4>
 
 <div align="center">
-	<img src="Poss JPG/ReadmeImmage.png">
+	<img src="PossJPG/ReadmeImmage.png">
 </div>
 
 *********
